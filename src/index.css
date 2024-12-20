@@ -3,6 +3,7 @@ body, html {
   margin: 0;
   padding: 0;
   height: 100%;
+  width: 100%;
   font-family: Arial, sans-serif;
   background-color: #f8f9fa;
   display: flex;
@@ -10,32 +11,38 @@ body, html {
   align-items: center;
   text-align: center;
   word-wrap: break-word; /* Ensures long words break onto the next line */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
+  box-sizing: border-box; /* Ensure padding and border are included in width/height */
 }
 
 #root {
-  height: 100%;
   width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden; /* Prevent horizontal overflow */
+  box-sizing: border-box; /* Include padding/borders in width/height calculations */
 }
 
 /* Quiz Container */
 .quiz-container {
+  overflow-y: auto; /* Allow vertical scrolling */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* Align content at the top */
   text-align: center;
   width: 90%; /* Flexible width for all screens */
   max-width: 600px; /* Limit for larger screens */
-  height: auto;
+  max-height: 90vh; /* Prevent content from overflowing the screen */
   padding: 20px;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
-  overflow: hidden;
+  overflow: auto; /* Enable scroll when content overflows */
+  margin: 0 auto; /* Ensure the container is centered */
 }
 
 /* Header and Message */
@@ -44,6 +51,7 @@ body, html {
   flex-direction: column;
   align-items: center;
   width: 100%;
+  margin-bottom: 20px; /* Ensure spacing */
 }
 
 .message-container {
@@ -66,6 +74,7 @@ body, html {
   font-weight: 700;
   text-align: center;
   word-wrap: break-word; /* Ensure text breaks to next line */
+  margin-top: 0; /* Remove unnecessary top margin */
 }
 
 /* Question Paragraph */
@@ -74,6 +83,8 @@ body, html {
   margin-bottom: 10px;
   color: #555;
   word-wrap: break-word; /* Ensures wrapping of long words */
+  white-space: pre-wrap; /* Preserve whitespace and line breaks */
+  max-width: 100%; /* Ensure text wraps properly within the container */
 }
 
 /* Option Buttons */
@@ -101,7 +112,7 @@ body, html {
 }
 
 /* Start and Restart Buttons */
-.start-button, .restart-button {
+.start-button {
   padding: 12px 25px;
   font-size: 1.2rem;
   font-weight: bold;
@@ -116,65 +127,45 @@ body, html {
   background-color: #007bff;
 }
 
-.restart-button {
-  background-color: #f44336;
-}
-
 .start-button:hover {
   background-color: #0056b3;
 }
 
-.restart-button:hover {
-  background-color: #d32f2f;
-}
 
-/* Share Section */
-.share-section {
+.buttons-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: space-around; /* This will ensure the buttons are spaced evenly */
   margin-top: 20px;
 }
 
-.share-link-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.share-input {
-  padding: 10px;
-  font-size: 16px;
-  width: 300px;
-  margin-right: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.share-input {
-  width: calc(100% - 20px);
-  padding: 10px;
-  font-size: 1rem;
-  text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 10px;
-}
-
-.copy-button {
+.copy-button{
   padding: 10px 20px;
-  font-size: 1rem;
-  background-color: #2196f3;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #007bff; /* Adjust the background color to your preference */
   color: white;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.copy-button:hover {
-  background-color: #1976d2;
+.restart-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #f44336; /* Adjust the background color to your preference */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
 }
+.copy-button:hover {
+  background-color: #0056b3; /* Adjust the hover effect to your preference */
+}
+.restart-button:hover {
+  background-color: #d32f2f; /* Adjust the hover effect to your preference */
+}
+
 
 /* Image Styling */
 .quiz-container img {

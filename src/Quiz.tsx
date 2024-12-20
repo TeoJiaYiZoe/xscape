@@ -173,7 +173,7 @@ const Quiz = () => {
       {!quizStarted ? (
         <div>
           <h1>Are you ready to escape?</h1>
-          <h3>Be ready to learn and know yourself.</h3>
+          <h3>Be ready to learn about yourself. </h3>
           <img src={`${basePath}/images/start.jpg`} alt="Start" className="start-image" />
           <button className="start-button" onClick={startQuiz}>
             Start
@@ -181,25 +181,25 @@ const Quiz = () => {
         </div>
       ) : showResult ? (
         <div>
-          <h1>Congratulations! You have escaped!</h1>
+          <h1>Congratulations! You have escaped! Screenshot to share the result with your friends</h1>
           {personalityResult && (
             <div>
               <img src={getImageForResult(personalityResult)} alt="result" />
             </div>
           )}
-           <div>
-            <button className="copy-button" onClick={copyToClipboard}>
-              Share the game with your friends
-            </button>
-          </div>
+           <div className="buttons-container">
+           <button className="copy-button" onClick={copyToClipboard}>
+            Share the game with your friends
+          </button>
           <button className="restart-button" onClick={restartQuiz}>
             Restart Quiz
           </button>
+          </div>
         </div>
       ) : (
         <div>
+          <p>{questions[currentQuestionIndex].question}</p>
           <div className="header-container">
-            <h1>{questions[currentQuestionIndex].header}</h1>
             {currentQuestionIndex === 7 && (
               <div className="message-container">
                 <h3>Click to play the hacker's message</h3>
@@ -211,7 +211,6 @@ const Quiz = () => {
               </div>
             )}
           </div>
-          <p>{questions[currentQuestionIndex].question}</p>
           <img
             key={currentQuestionIndex}
             src={getImageForQuestion(currentQuestionIndex)}
@@ -225,7 +224,6 @@ const Quiz = () => {
                 key={option}
                 className="option-button"
                 onClick={() => handleAnswerChange(letter)}
-                disabled={currentQuestionIndex >= questions.length - 1}
               >
                 {option}
               </button>
