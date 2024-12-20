@@ -8,7 +8,7 @@ const Quiz = () => {
   const [quizStarted, setQuizStarted] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [personalityResult, setPersonalityResult] = useState<string | null>(null);
-  const [shareLink, setShareLink] = useState<string>("");
+  const [shareLink, setShareLink] = useState<string>("https://teojiayizoe.github.io/xscape/");
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
 
   const basePath = "/xscape"; // Update this to match your repository name
@@ -108,9 +108,8 @@ const Quiz = () => {
     }
 
     setPersonalityResult(result);
-    const resultText = encodeURIComponent(result);
-    const url = `${window.location.origin}${basePath}?result=${resultText}`;
-    setShareLink(url);
+    const fixedShareLink = "https://teojiayizoe.github.io/xscape/";
+    setShareLink(fixedShareLink);
   };
 
   const getImageForResult = (result: string | null) => {
@@ -161,7 +160,7 @@ const Quiz = () => {
     setCurrentQuestionIndex(0);
     setShowResult(false);
     setPersonalityResult(null);
-    setShareLink("");
+    setShareLink("https://teojiayizoe.github.io/xscape"); 
     setQuizStarted(false);
   };
 
@@ -188,11 +187,9 @@ const Quiz = () => {
               <img src={getImageForResult(personalityResult)} alt="result" />
             </div>
           )}
-          <div className="share-section">
-            <p>Share your result:</p>
-            <input type="text" value={shareLink} readOnly className="share-input" />
+           <div>
             <button className="copy-button" onClick={copyToClipboard}>
-              Copy Link
+              Share the game with your friends
             </button>
           </div>
           <button className="restart-button" onClick={restartQuiz}>
@@ -228,6 +225,7 @@ const Quiz = () => {
                 key={option}
                 className="option-button"
                 onClick={() => handleAnswerChange(letter)}
+                disabled={currentQuestionIndex >= questions.length - 1}
               >
                 {option}
               </button>
