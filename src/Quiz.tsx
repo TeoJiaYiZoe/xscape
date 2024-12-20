@@ -1,6 +1,6 @@
-import { useState, useEffect  } from "react";
+import { useState, useEffect } from "react";
 import { questions } from "./questions";
-import { FaVolumeUp   } from "react-icons/fa";
+import { FaVolumeUp } from "react-icons/fa";
 
 const Quiz = () => {
   const [answers, setAnswers] = useState<string[]>(new Array(questions.length).fill(""));
@@ -9,12 +9,13 @@ const Quiz = () => {
   const [showResult, setShowResult] = useState(false);
   const [personalityResult, setPersonalityResult] = useState<string | null>(null);
   const [shareLink, setShareLink] = useState<string>("");
-
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
+
+  const basePath = "/xscape"; // Update this to match your repository name
 
   useEffect(() => {
     if (currentQuestionIndex === 7) {
-      const newAudio = new Audio("/music/office_phone.wav");
+      const newAudio = new Audio(`${basePath}/music/office_phone.wav`);
       newAudio.play();
       setAudio(newAudio);
     } else if (audio) {
@@ -29,27 +30,23 @@ const Quiz = () => {
       img.src = getImageForQuestion(index);
     });
   }, []);
-  
+
   const handleAnswerChange = (choiceLetter: string) => {
     console.log(`User selected: ${choiceLetter}`);
-
     const newAnswers = [...answers];
-    newAnswers[currentQuestionIndex] = choiceLetter; 
+    newAnswers[currentQuestionIndex] = choiceLetter;
     setAnswers(newAnswers);
-
 
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       calculatePersonalityResult(newAnswers);
-      setShowResult(true); 
+      setShowResult(true);
     }
   };
 
   const calculatePersonalityResult = (answers: string[]) => {
     const combinations: { [key: string]: number } = {};
-
-    // Calculate all combinations of answers (e.g., 'A', 'B', etc.)
     for (let i = 0; i < answers.length; i++) {
       for (let j = i + 1; j < answers.length; j++) {
         const combination = [answers[i], answers[j]].sort().join("");
@@ -57,12 +54,10 @@ const Quiz = () => {
       }
     }
 
-    // Find the most frequent combination
     const mostFrequentCombination = Object.keys(combinations).reduce((a, b) =>
       combinations[a] > combinations[b] ? a : b
     );
 
-    // Determine the result based on the most frequent combination
     let result: string;
     switch (mostFrequentCombination) {
       case "AB":
@@ -84,7 +79,6 @@ const Quiz = () => {
         result = "The Innovator";
         break;
       default:
-
         const frequency: { [key: string]: number } = {};
         answers.forEach((answer) => {
           if (answer) {
@@ -114,35 +108,33 @@ const Quiz = () => {
     }
 
     setPersonalityResult(result);
-
-    // Generate the shareable link
     const resultText = encodeURIComponent(result);
-    const url = `${window.location.origin}?result=${resultText}`;
+    const url = `${window.location.origin}${basePath}?result=${resultText}`;
     setShareLink(url);
   };
 
   const getImageForResult = (result: string | null) => {
     switch (result) {
       case "The Panicker":
-        return "/images/panicker.png";
+        return `${basePath}/images/panicker.png`;
       case "The Unifier":
-        return "/images/unifier.png";
+        return `${basePath}/images/unifier.png`;
       case "The Visionary":
-        return "/images/visionary.png";
+        return `${basePath}/images/visionary.png`;
       case "The Defeatist":
-        return "/images/defeatist.png";
+        return `${basePath}/images/defeatist.png`;
       case "The Risk-Taker":
-        return "/images/risk_taker.png";
+        return `${basePath}/images/risk_taker.png`;
       case "The Innovator":
-        return "/images/innovator.png";
+        return `${basePath}/images/innovator.png`;
       case "The Leader":
-        return "/images/leader.png";
+        return `${basePath}/images/leader.png`;
       case "The Analyst":
-        return "/images/analyst.png";
+        return `${basePath}/images/analyst.png`;
       case "The Collaborator":
-        return "/images/collaborator.png";
+        return `${basePath}/images/collaborator.png`;
       case "The Wild Card":
-        return "/images/wild_card.png";
+        return `${basePath}/images/wild_card.png`;
       default:
         return "";
     }
@@ -165,25 +157,25 @@ const Quiz = () => {
   };
 
   const restartQuiz = () => {
-    setAnswers(new Array(questions.length).fill("")); 
+    setAnswers(new Array(questions.length).fill(""));
     setCurrentQuestionIndex(0);
     setShowResult(false);
     setPersonalityResult(null);
-    setShareLink(""); 
+    setShareLink("");
     setQuizStarted(false);
   };
 
   const getImageForQuestion = (index: number) => {
-    return `/images/question_${index + 1}.jpg`;
+    return `${basePath}/images/question_${index + 1}.jpg`;
   };
-  
+
   return (
     <div className="quiz-container">
       {!quizStarted ? (
         <div>
-          <h1>Are you ready to escape? </h1>
+          <h1>Are you ready to escape?</h1>
           <h3>Be ready to learn and know yourself.</h3>
-          <img src="/images/start.jpg" alt="Start" className="start-image" />
+          <img src={`${basePath}/images/start.jpg`} alt="Start" className="start-image" />
           <button className="start-button" onClick={startQuiz}>
             Start
           </button>
@@ -212,22 +204,22 @@ const Quiz = () => {
           <div className="header-container">
             <h1>{questions[currentQuestionIndex].header}</h1>
             {currentQuestionIndex === 7 && (
-          <div className="message-container">
-            <h3>Click to play the hacker's message</h3>
-            <FaVolumeUp 
-              className="replay-icon"
-              onClick={replayAudio}
-              title="Replay Audio"
-            />
+              <div className="message-container">
+                <h3>Click to play the hacker's message</h3>
+                <FaVolumeUp
+                  className="replay-icon"
+                  onClick={replayAudio}
+                  title="Replay Audio"
+                />
+              </div>
+            )}
           </div>
-        )}
-      </div>
           <p>{questions[currentQuestionIndex].question}</p>
-          <img 
-            key={currentQuestionIndex} 
-            src={getImageForQuestion(currentQuestionIndex)} 
-            alt="question" 
-            className="question-image" 
+          <img
+            key={currentQuestionIndex}
+            src={getImageForQuestion(currentQuestionIndex)}
+            alt="question"
+            className="question-image"
           />
           {questions[currentQuestionIndex].options.map((option, index) => {
             const letter = String.fromCharCode(65 + index);
