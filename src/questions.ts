@@ -32,7 +32,7 @@ export const questions: Question[] = [
     ]
   },
   {
-    "question": "Inside the drawer, you find a new puzzle waiting for you. Everyone seems busy with their tasks, but a colleague who works differently from you looks at you, waiting for your next move. How do you approach this new challenge?",
+    "question": "You find a new puzzle in the drawer. A colleague waits for your next move. How do you tackle it?",
     "options": [
       "You take the lead and provide clear instructions to get things moving.",
       "You’re flexible and adjust your approach to work with their style.",
